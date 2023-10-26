@@ -192,6 +192,7 @@ jobs:
           args: |
             $BUILD_ARGS \
             --${{ matrix.arch }} \
+            --docker-hub jaredlhf \
             --cosign \
             --target /data \
             --generic ${{ needs.init.outputs.version }}
@@ -268,6 +269,7 @@ jobs:
           args: |
             $BUILD_ARGS \
             --target /data/machine \
+            --docker-hub jaredlhf \
             --cosign \
             --machine "${{ needs.init.outputs.version }}=${{ matrix.machine }}"
 
@@ -346,7 +348,7 @@ jobs:
             local tag_l=${1}
             local tag_r=${2}
 
-            for registry in "ghcr.io/home-assistant" "docker.io/homeassistant"
+            for registry in "ghcr.io/jaredlhf" "docker.io/ampotech"
             do
 
               docker manifest create "${registry}/home-assistant:${tag_l}" \
@@ -384,7 +386,7 @@ jobs:
 
           function validate_image() {
             local image=${1}
-            if ! cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp https://github.com/home-assistant/core/.* "${image}"; then
+            if ! cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp https://github.com/jaredlhf/core/.* "${image}"; then
               echo "Invalid signature!"
               exit 1
             fi
@@ -394,23 +396,23 @@ jobs:
             local image=${1}
             local tag=${2}
 
-            docker tag "ghcr.io/home-assistant/${image}:${tag}" "docker.io/homeassistant/${image}:${tag}"
-            docker push "docker.io/homeassistant/${image}:${tag}"
-            cosign sign --yes "docker.io/homeassistant/${image}:${tag}"
+            docker tag "ghcr.io/jaredlhf/${image}:${tag}" "docker.io/ampotech/${image}:${tag}"
+            docker push "docker.io/ampotech/${image}:${tag}"
+            cosign sign --yes "docker.io/ampotech/${image}:${tag}"
           }
 
           # Pull images from github container registry and verify signature
-          docker pull "ghcr.io/home-assistant/amd64-homeassistant:${{ needs.init.outputs.version }}"
-          docker pull "ghcr.io/home-assistant/i386-homeassistant:${{ needs.init.outputs.version }}"
-          docker pull "ghcr.io/home-assistant/armhf-homeassistant:${{ needs.init.outputs.version }}"
-          docker pull "ghcr.io/home-assistant/armv7-homeassistant:${{ needs.init.outputs.version }}"
-          docker pull "ghcr.io/home-assistant/aarch64-homeassistant:${{ needs.init.outputs.version }}"
+          docker pull "ghcr.io/jaredlhf/amd64-homeassistant:${{ needs.init.outputs.version }}"
+          docker pull "ghcr.io/jaredlhf/i386-homeassistant:${{ needs.init.outputs.version }}"
+          docker pull "ghcr.io/jaredlhf/armhf-homeassistant:${{ needs.init.outputs.version }}"
+          docker pull "ghcr.io/jaredlhf/armv7-homeassistant:${{ needs.init.outputs.version }}"
+          docker pull "ghcr.io/jaredlhf/aarch64-homeassistant:${{ needs.init.outputs.version }}"
 
-          validate_image "ghcr.io/home-assistant/amd64-homeassistant:${{ needs.init.outputs.version }}"
-          validate_image "ghcr.io/home-assistant/i386-homeassistant:${{ needs.init.outputs.version }}"
-          validate_image "ghcr.io/home-assistant/armhf-homeassistant:${{ needs.init.outputs.version }}"
-          validate_image "ghcr.io/home-assistant/armv7-homeassistant:${{ needs.init.outputs.version }}"
-          validate_image "ghcr.io/home-assistant/aarch64-homeassistant:${{ needs.init.outputs.version }}"
+          validate_image "ghcr.io/jaredlhf/amd64-homeassistant:${{ needs.init.outputs.version }}"
+          validate_image "ghcr.io/jaredlhf/i386-homeassistant:${{ needs.init.outputs.version }}"
+          validate_image "ghcr.io/jaredlhf/armhf-homeassistant:${{ needs.init.outputs.version }}"
+          validate_image "ghcr.io/jaredlhf/armv7-homeassistant:${{ needs.init.outputs.version }}"
+          validate_image "ghcr.io/jaredlhf/aarch64-homeassistant:${{ needs.init.outputs.version }}"
 
           # Upload images to dockerhub
           push_dockerhub "amd64-homeassistant" "${{ needs.init.outputs.version }}"
