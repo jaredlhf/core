@@ -192,6 +192,7 @@ jobs:
           args: |
             $BUILD_ARGS \
             --${{ matrix.arch }} \
+            --docker-hub jaredlhf \
             --cosign \
             --target /data \
             --generic ${{ needs.init.outputs.version }}
@@ -268,6 +269,7 @@ jobs:
           args: |
             $BUILD_ARGS \
             --target /data/machine \
+            --docker-hub jaredlhf \
             --cosign \
             --machine "${{ needs.init.outputs.version }}=${{ matrix.machine }}"
 
