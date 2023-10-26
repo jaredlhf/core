@@ -99,7 +99,7 @@ jobs:
         if: needs.init.outputs.channel == 'dev'
         uses: dawidd6/action-download-artifact@v2
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          github_token: ${{secrets.GIT_TOKEN}}
           repo: home-assistant/frontend
           branch: dev
           workflow: nightly.yaml
@@ -110,7 +110,7 @@ jobs:
         if: needs.init.outputs.channel == 'dev'
         uses: dawidd6/action-download-artifact@v2
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          github_token: ${{secrets.GIT_TOKEN}}
           repo: home-assistant/intents-package
           branch: main
           workflow: nightly.yaml
@@ -184,7 +184,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GIT_TOKEN }}
 
       - name: Build base image
         uses: home-assistant/builder@2023.09.0
@@ -261,7 +261,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GIT_TOKEN }}
 
       - name: Build base image
         uses: home-assistant/builder@2023.09.0
@@ -337,7 +337,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GIT_TOKEN }}
 
       - name: Build Meta Image
         shell: bash
