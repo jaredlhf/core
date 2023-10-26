@@ -408,7 +408,7 @@ jobs:
           docker pull "ghcr.io/jaredlhf/armv7-homeassistant:${{ needs.init.outputs.version }}"
           docker pull "ghcr.io/jaredlhf/aarch64-homeassistant:${{ needs.init.outputs.version }}"
 
-          validate_image "ghcr.io/jaredlhft/amd64-homeassistant:${{ needs.init.outputs.version }}"
+          validate_image "ghcr.io/jaredlhf/amd64-homeassistant:${{ needs.init.outputs.version }}"
           validate_image "ghcr.io/jaredlhf/i386-homeassistant:${{ needs.init.outputs.version }}"
           validate_image "ghcr.io/jaredlhf/armhf-homeassistant:${{ needs.init.outputs.version }}"
           validate_image "ghcr.io/jaredlhf/armv7-homeassistant:${{ needs.init.outputs.version }}"
